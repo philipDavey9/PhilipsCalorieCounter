@@ -16,8 +16,11 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			VBox root = loader.load(new FileInputStream("src/application/ApplicationView.fxml"));
+			CalorieController controller = (CalorieController)loader.getController();
+			controller.applicationStage = primaryStage;
 			Scene scene = new Scene(root,250,50);
 			primaryStage.setScene(scene);
+			
 			primaryStage.setTitle("Philip's Calorie Counter");
 			primaryStage.show();
 		} catch(Exception e) {
