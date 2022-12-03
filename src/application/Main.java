@@ -18,7 +18,7 @@ public class Main extends Application {
 			VBox root = loader.load(new FileInputStream("src/application/ApplicationView.fxml"));
 			CalorieController controller = (CalorieController)loader.getController();
 			controller.applicationStage = primaryStage;
-			Scene scene = new Scene(root,250,50);
+			Scene scene = new Scene(root,500,500);
 			primaryStage.setScene(scene);
 			
 			primaryStage.setTitle("Philip's Calorie Counter");

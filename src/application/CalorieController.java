@@ -13,10 +13,25 @@ import javafx.scene.layout.*;
 		Stage applicationStage;
 
 	    @FXML
-	    private ResourceBundle resources;
-
-	    @FXML
-	    private URL location;
+	    private TextField usernameTextfield;
+	    
+	     @FXML
+	     private Label usernameErrorLabel;
+	     
+	     @FXML
+	     private Label mealsErrorLabel;
+	     
+	     @FXML
+	     private Label othersErrorLabel;
+	     
+	     @FXML
+	     private Label exerciseErrorLabel;
+	     
+	     @FXML 
+	     private TextField exerciseTextfield;
+	     
+	     @FXML 
+	     private Slider exerciseIntensity;
 
 	    @FXML
 	    void enterInputScreen(ActionEvent inputScreenEvent) {
@@ -39,9 +54,17 @@ import javafx.scene.layout.*;
 	    	Scene mealScreenScene = new Scene(mealScreenContainer);
 	    	applicationStage.setScene(mealScreenScene);
 	    }
-
-	    @FXML
-	    void initialize() {
-
+	    
+	    @FXML 
+	    void enterOthers(ActionEvent event) {
+	    	
 	    }
+	    
+	    @FXML 
+	    void enterMeals(ActionEvent event) {
+	    	
+	    }
+
+	   
+	    
 }

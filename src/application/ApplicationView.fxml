@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -8,16 +9,122 @@
 
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CalorieController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="300.0">
+      <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#enterInputScreen" text="Calculate Calories">
+            <Label text="Enter Username:">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="usernameTextfield">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </TextField>
+            <Label fx:id="usernameErrorLabel" textFill="RED">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Number of Meals:">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox prefHeight="31.0" prefWidth="61.0">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </ChoiceBox>
+            <Button mnemonicParsing="false" onAction="#enterMeals" text="Enter Meals">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#enterMealScreen" text="Add New Meal">
+            <Label fx:id="mealsErrorLabel" textFill="RED">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Number of Miscellaneous Items:">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox prefHeight="31.0" prefWidth="55.0">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </ChoiceBox>
+            <Button mnemonicParsing="false" onAction="#enterOthers" text="Enter Miscellaneous Items">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Label fx:id="othersErrorLabel" textFill="RED">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label prefHeight="21.0" prefWidth="138.0" text="Minutes of Exercise" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="exersiceTextfield">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </TextField>
+            <Label fx:id="exerciseErrorLabel" textFill="RED">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Label prefHeight="21.0" prefWidth="156.0" text="Intensity of Exercise" textAlignment="CENTER">
+         <VBox.margin>
+            <Insets bottom="10.0" left="180.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <Slider fx:id="exerciseIntesity" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="1" showTickLabels="true" showTickMarks="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Slider>
+      <Button mnemonicParsing="false" text="Calculate">
+         <VBox.margin>
+            <Insets bottom="10.0" left="200.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Button>
+      <Label text="Hello there">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="100.0" prefWidth="300.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#enterInputScreen" text="Create New User">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#enterMealScreen" text="Add New Meal">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="200.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
