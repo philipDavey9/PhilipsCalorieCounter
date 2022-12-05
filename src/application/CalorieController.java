@@ -43,12 +43,32 @@ import javafx.scene.layout.*;
 	    @FXML
 	    void enterInputScreen(ActionEvent inputScreenEvent) {
 	    	Scene mainScene = applicationStage.getScene();
-	    	HBox inputScreenContainer = new HBox();
+	    	VBox userScreenContainer = new VBox();
+	    	
+	    	HBox usernameLine = new HBox();
+	    	Label username = new Label("Enter New Username:");
+	    	TextField usernameText = new TextField();
+	    	usernameLine.getChildren().addAll(username,usernameText);
+	    	
+	    	HBox caloriesLine = new HBox();
+	    	Label calories = new Label("Enter Target Daily Calories:");
+	    	TextField caloriesText = new TextField();
+	    	caloriesLine.getChildren().addAll(calories, caloriesText);
+	    	
+	    	HBox exerciseLine = new HBox();
+	    	Label exerciseTime = new Label("Enter Target Daily Exercise Time:");
+	    	TextField exerciseText = new TextField();
+	    	exerciseLine.getChildren().addAll(exerciseTime, exerciseText);
+	    	
 	    	Button doneButton = new Button("Done");
-	    	doneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
-	    	inputScreenContainer.getChildren().add(doneButton);
-	    	Scene inputScreenScene = new Scene(inputScreenContainer);
+	    	doneButton.setOnAction(doneEvent -> newUser(mainScene, usernameText, caloriesText, exerciseText));
+	    	userScreenContainer.getChildren().addAll(usernameLine, caloriesLine, exerciseLine, doneButton);
+	    	Scene inputScreenScene = new Scene(userScreenContainer);
+	    	
 	    	applicationStage.setScene(inputScreenScene);
+	    }
+	    void newUser(Scene mainScene, TextField usernameText, TextField caloriesText, TextField exerciseText) {
+	    	applicationStage.setScene(mainScene);
 	    }
 
 	    @FXML
