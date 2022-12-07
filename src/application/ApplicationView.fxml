@@ -56,11 +56,6 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Label fx:id="mealsErrorLabel" text="error label" textFill="RED">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Label>
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
@@ -96,11 +91,6 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Label fx:id="othersErrorLabel" text="error label" textFill="RED">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Label>
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
@@ -137,7 +127,7 @@
             <Insets bottom="10.0" left="200.0" right="10.0" top="10.0" />
          </VBox.margin>
       </Button>
-      <Label text="Here I will place text indicating how the user did compared to there goals">
+      <Label>
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>

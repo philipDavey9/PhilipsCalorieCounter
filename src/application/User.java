@@ -12,6 +12,9 @@ public class User {
 	private double targetCalories;
 	private double targetExercise;
 	
+	public User() {
+		
+	}
 	/**
 	 * Constructor for class User that takes inputs specifically from textfields. All validation of user input
 	 * is done within the constructor.

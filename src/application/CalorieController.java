@@ -113,9 +113,20 @@ import javafx.scene.layout.*;
 	    	mealScreenContainer.getChildren().addAll(mealName, newMealText);
 	    	
 	    	int ingredientNumber = 0;
-	    	try{ ingredientNumber = (int)checkUserTextbox(ingredientsText, 0);}
+	    	boolean errorDetected = false;
+	    	try{ ingredientNumber = (int)checkUserTextbox(ingredientsText, 0);
+	    	if (usernameTextfield.getText() == "")throw new Error("Please enter a username.");
+    		else if (User.checkUserExists(usernameTextfield.getText())==false) {
+    		throw new Error("This user does not exist.");
+    	}else ingredientNumError.setText("");
+    	String usersName = usernameTextfield.getText();}
+    	catch(IOException IOE) {
+    		errorDetected = true; 
+    		ingredientNumError.setText("Something went wrong with the file");
+    	}
 	    	catch(Error E) {
 	    		ingredientNumError.setText(E.getMessage());
+	    		errorDetected = true;
 	    	}
 	    	int rowsCreated = 0;
 	    	ArrayList<TextField> ingredientNamesList = new ArrayList<TextField>();
@@ -147,18 +158,72 @@ import javafx.scene.layout.*;
 	    		enterMealContainer.getChildren().add(container);
 	    		rowsCreated++;
 	    	}
-	    	
+	    	Label servings = new Label("Servings made:");
+	    	TextField enterServings = new TextField();
+	    	HBox serve = new HBox();
+	    	serve.getChildren().addAll(servings, enterServings);
 	    	Button mealDoneButton = new Button("Done");
-	    	mealDoneButton.setOnAction(doneEvent -> newMeal(mainScene, ingredientNamesList, ingredientCaloriesList, portions, portionsUsed));
-	    	enterMealContainer.getChildren().add(mealDoneButton);
+	    	mealDoneButton.setOnAction(doneEvent -> newMeal(mainScene, ingredientNamesList, ingredientCaloriesList, portions, portionsUsed, newMealText, enterServings));
+	    	enterMealContainer.getChildren().addAll(serve, mealDoneButton, errorInNewMeal);
 	    	Scene mealScreenScene = new Scene(enterMealContainer);
-	    	if (ingredientNumber != 0) {
+	    	if (!errorDetected) {
 	    		applicationStage.setScene(mealScreenScene);
 	    		ingredientNumError.setText(""); 
 	    	}
-	    }
-	    void newMeal(Scene mainScene, ArrayList<TextField> ingredientNamesList, ArrayList<TextField> ingredientCaloriesList, ArrayList<TextField> portions, ArrayList<TextField> portionsUsed) {
-	    	applicationStage.setScene(mainScene);
+	    }Label errorInNewMeal = new Label("");
+	    void newMeal(Scene mainScene, ArrayList<TextField> ingredientNamesList, ArrayList<TextField> ingredientCaloriesList, ArrayList<TextField> portions, ArrayList<TextField> portionsUsed, TextField newMealText, TextField enterServings) {
+	    	ArrayList<Double> caloriesList = new ArrayList<Double>();
+	    	ArrayList<Double> perPortion = new ArrayList<Double>();
+	    	ArrayList<Double> portionsUsedPer = new ArrayList<Double>();
+	    	boolean error = false;
+	    	
+	    	for(TextField num: ingredientCaloriesList) {
+	    		try { Double ex = checkUserTextbox(num, 1);
+	    		caloriesList.add(ex);}
+	    		catch(Error E) {
+	    			error = true;
+	    			errorInNewMeal.setText(E.getMessage()+ " Error within calories input.");
+	    		}
+	    	}
+	    	for (TextField num2: portions) {
+	    		try {double exe = checkUserTextbox(num2, 1);
+	    		perPortion.add(exe);}
+	    		catch(Error E) {
+	    			error = true;
+	    			errorInNewMeal.setText(E.getMessage()+ " Error within portion sizing.");
+	    		}
+	    	}
+	    	for (TextField num3 : portionsUsed) {
+	    		try {double exa = checkUserTextbox(num3, 1);
+	    		portionsUsedPer.add(exa);}
+	    		catch(Error E) {
+	    			error = true;
+	    			errorInNewMeal.setText(E.getMessage()+ " Error within amount used.");
+	    		}
+	    	}
+	    	
+	    	if (newMealText.getText() =="") {
+	    		error = true;
+	    		errorInNewMeal.setText("Please enter a meal name.");
+	    	}
+	    	for (TextField name: ingredientNamesList) {
+	    		if (name.getText() == "") {
+	    			error = true;
+	    			errorInNewMeal.setText("Please enter all ingredient names.");
+	    		}
+	    	}
+	    	Double amount = 0.0;
+	    	try {amount = checkUserTextbox(enterServings,1);}
+	    	catch(Error E) {
+	    		error = true;
+	    		errorInNewMeal.setText(E.getMessage()+" Error within serving size.");
+	    	}
+	    	Meal newMeal = new Meal(ingredientNamesList, caloriesList, perPortion, portionsUsedPer, newMealText, amount);
+	    	try{newMeal.saveMeal(usernameTextfield.getText());}		
+	    	catch(IOException ioe) {
+	    		error = true;
+	    		errorInNewMeal.setText("Error within file.");}
+	    	if (!error) applicationStage.setScene(mainScene);
 	    }
 	    
 	    @FXML 
@@ -229,12 +294,23 @@ Scene mainScene = applicationStage.getScene();
 	    	
 	    	Button enterDoneButton = new Button("Done");
 	    	enterDoneButton.setOnAction(doneEvent -> addMealCalories(mainScene, mealList, mealPortion));
-	    	mealContainer.getChildren().add(enterDoneButton);
+	    	mealContainer.getChildren().addAll(enterDoneButton,newLabelError);
 	    	Scene enterScreenScene = new Scene(mealContainer);
 	    	applicationStage.setScene(enterScreenScene);
 	    }
+	    Label newLabelError = new Label("");
 	    void addMealCalories(Scene mainScene, ArrayList<TextField> mealList, ArrayList<TextField> mealPortion) {
-	    	applicationStage.setScene(mainScene);
+	    	double total = 0;
+	    	boolean error = false;
+	    	for(int n=0; n< mealList.size(); n++) {
+	    		String name = mealList.get(n).getText();
+	    		try {double num = Meal.findMeal(name,usernameTextfield.getText());
+	    		total += num * Double.parseDouble(mealPortion.get(n).getText());}
+	    		catch(Error E) {
+	    			error = true;
+	    			newLabelError.setText(E.getMessage());
+	    		}
+	    	}if (!error)applicationStage.setScene(mainScene);
 	    }
 	    
 	    //Method to calculate calories when 'calculate' button is pressed. Handles user input from main scene in method.
@@ -261,7 +337,7 @@ Scene mainScene = applicationStage.getScene();
 	    		exerciseErrorLabel.setText(E.getMessage());
 	    	}
 	    	double intensity = exerciseIntensity.getValue() / 5.0;
-	    	System.out.println(intensity); 
+	    	 
 	    	
 	    }
 	    
