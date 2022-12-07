@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -39,9 +41,12 @@ import javafx.scene.layout.*;
 	     
 	     @FXML 
 	     private ChoiceBox<Integer> otherNumber;
-
-	    @FXML
-	    void enterInputScreen(ActionEvent inputScreenEvent) {
+	     
+	     @FXML 
+	     private TextField ingredientsText;
+	     
+	     @FXML
+	  	    void enterInputScreen(ActionEvent inputScreenEvent) {
 	    	Scene mainScene = applicationStage.getScene();
 	    	VBox userScreenContainer = new VBox();
 	    	
@@ -56,30 +61,79 @@ import javafx.scene.layout.*;
 	    	caloriesLine.getChildren().addAll(calories, caloriesText);
 	    	
 	    	HBox exerciseLine = new HBox();
-	    	Label exerciseTime = new Label("Enter Target Daily Exercise Time:");
+	    	Label exerciseTime = new Label("Enter Target Daily Exercise Time(Minutes):");
 	    	TextField exerciseText = new TextField();
 	    	exerciseLine.getChildren().addAll(exerciseTime, exerciseText);
 	    	
+	    	
 	    	Button doneButton = new Button("Done");
 	    	doneButton.setOnAction(doneEvent -> newUser(mainScene, usernameText, caloriesText, exerciseText));
-	    	userScreenContainer.getChildren().addAll(usernameLine, caloriesLine, exerciseLine, doneButton);
+	    	userScreenContainer.getChildren().addAll(usernameLine, caloriesLine, exerciseLine,errorLabel, doneButton);
 	    	Scene inputScreenScene = new Scene(userScreenContainer);
 	    	
 	    	applicationStage.setScene(inputScreenScene);
-	    }
+	    }Label errorLabel = new Label("");
+	     
 	    void newUser(Scene mainScene, TextField usernameText, TextField caloriesText, TextField exerciseText) {
-	    	applicationStage.setScene(mainScene);
-	    }
+	    	Boolean errorInInput = false;
+	    	try {User currentuser = new User(usernameText,caloriesText,exerciseText);
+	    	currentuser.saveUser();}
+	    	catch(IOException IOE) {
+	    		errorLabel.setText("Something with the file went wrong");
+	    		errorInInput = true;
+	    	}
+	    	catch(Error E) {
+	    		errorInInput = true;
+	    		errorLabel.setText((E.getMessage()));}
+	    	
+	    	
+	    	
+	    	if (!errorInInput) applicationStage.setScene(mainScene);}
 
 	    @FXML
 	    void enterMealScreen(ActionEvent mealScreenEvent) {
 	    	Scene mainScene = applicationStage.getScene();
+	    	VBox enterMealContainer = new VBox();
+	    	
 	    	HBox mealScreenContainer = new HBox();
+	    	Label mealName = new Label("Name of Meal:");
+	    	TextField newMealText = new TextField();
+	    	mealScreenContainer.getChildren().addAll(mealName, newMealText);
+	    	enterMealContainer.getChildren().addAll(mealScreenContainer);
+	    	
+	    	int ingredientNumber = (int) Double.parseDouble(ingredientsText.getText());
+	    	int rowsCreated = 0;
+	    	ArrayList<TextField> ingredientNamesList = new ArrayList<TextField>();
+	    	ArrayList<TextField> ingredientCaloriesList = new ArrayList<TextField>();
+	    	ArrayList<TextField> portions = new ArrayList<TextField>();
+	    	ArrayList<TextField> portionsUsed = new ArrayList<TextField>();
+	    	
+	    	while (rowsCreated<ingredientNumber) {
+	    		HBox container = new HBox();
+	    		TextField name = new TextField("Enter Ingredient Name");
+	    		TextField calories = new TextField("Enter Ingredient Calories");
+	    		Label per = new Label("per");
+	    		TextField measurement = new TextField("In ml or g");
+	    		TextField used = new TextField("Amount Used In ml or g");
+	    		
+	    		ingredientNamesList.add(name);
+	    		ingredientCaloriesList.add(calories);
+	    		portions.add(measurement);
+	    		portionsUsed.add(used);
+	    		
+	    		container.getChildren().addAll(name, calories, per, measurement, used);
+	    		enterMealContainer.getChildren().add(container);
+	    		rowsCreated++;
+	    	}
+	    	
 	    	Button mealDoneButton = new Button("Done");
-	    	mealDoneButton.setOnAction(doneEvent -> applicationStage.setScene(mainScene));
-	    	mealScreenContainer.getChildren().add(mealDoneButton);
-	    	Scene mealScreenScene = new Scene(mealScreenContainer);
+	    	mealDoneButton.setOnAction(doneEvent -> newMeal(mainScene, ingredientNamesList, ingredientCaloriesList, portions, portionsUsed));
+	    	enterMealContainer.getChildren().add(mealDoneButton);
+	    	Scene mealScreenScene = new Scene(enterMealContainer);
 	    	applicationStage.setScene(mealScreenScene);
+	    }
+	    void newMeal(Scene mainScene, ArrayList<TextField> ingredientNamesList, ArrayList<TextField> ingredientCaloriesList, ArrayList<TextField> portions, ArrayList<TextField> portionsUsed) {
+	    	applicationStage.setScene(mainScene);
 	    }
 	    
 	    @FXML 

@@ -146,12 +146,22 @@
          <children>
             <Button mnemonicParsing="false" onAction="#enterInputScreen" text="Create New User">
                <HBox.margin>
-                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
+            <Label text="Number of Ingredients:">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="ingredientsText">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </TextField>
             <Button mnemonicParsing="false" onAction="#enterMealScreen" text="Add New Meal">
                <HBox.margin>
-                  <Insets bottom="10.0" left="200.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
