@@ -45,6 +45,9 @@ import javafx.scene.layout.*;
 	     @FXML 
 	     private TextField ingredientsText;
 	     
+	     @FXML 
+	     private Label ingredientNumError;
+	     
 	     //Creates the scene when 'Create new user' button is pressed.
 	     @FXML
 	  	    void enterInputScreen(ActionEvent inputScreenEvent) {
@@ -75,8 +78,14 @@ import javafx.scene.layout.*;
 	    	applicationStage.setScene(inputScreenScene);
 	    }Label errorLabel = new Label("");
 	     
-	    //Creates a new instance of User with input from 'Create new user' scene and saves it. 
-	    //Will not allow user to get back to mainScene until all errors are resolved.
+	    /**
+	     * Creates a new instance of User with input from 'Create new user' scene and saves it. 
+	     *Will not allow user to get back to mainScene until all errors are resolved.
+	     * @param mainScene Taken to allow user to return to main scene.
+	     * @param usernameText Text to become username
+	     * @param caloriesText text to become target calories
+	     * @param exerciseText text become target exercise time
+	     */ 
 	    void newUser(Scene mainScene, TextField usernameText, TextField caloriesText, TextField exerciseText) {
 	    	Boolean errorInInput = false;
 	    	try {User currentuser = new User(usernameText,caloriesText,exerciseText);
@@ -102,22 +111,32 @@ import javafx.scene.layout.*;
 	    	Label mealName = new Label("Name of Meal:");
 	    	TextField newMealText = new TextField();
 	    	mealScreenContainer.getChildren().addAll(mealName, newMealText);
-	    	enterMealContainer.getChildren().addAll(mealScreenContainer);
 	    	
-	    	int ingredientNumber = (int) Double.parseDouble(ingredientsText.getText());
+	    	int ingredientNumber = 0;
+	    	try{ ingredientNumber = (int)checkUserTextbox(ingredientsText, 0);}
+	    	catch(Error E) {
+	    		ingredientNumError.setText(E.getMessage());
+	    	}
 	    	int rowsCreated = 0;
 	    	ArrayList<TextField> ingredientNamesList = new ArrayList<TextField>();
 	    	ArrayList<TextField> ingredientCaloriesList = new ArrayList<TextField>();
 	    	ArrayList<TextField> portions = new ArrayList<TextField>();
 	    	ArrayList<TextField> portionsUsed = new ArrayList<TextField>();
 	    	
+	    	Label one = new Label("Ingredient Name: 					");
+	    	Label two = new Label("Calories per Serving:						");
+	    	Label three = new Label("	Amount Used:");
+	    	HBox four = new HBox();
+	    	four.getChildren().addAll(one,two,three);
+	    	enterMealContainer.getChildren().addAll(mealScreenContainer, four);
+	    	
 	    	while (rowsCreated<ingredientNumber) {
 	    		HBox container = new HBox();
-	    		TextField name = new TextField("Enter Ingredient Name");
-	    		TextField calories = new TextField("Enter Ingredient Calories");
+	    		TextField name = new TextField();
+	    		TextField calories = new TextField();
 	    		Label per = new Label("per");
-	    		TextField measurement = new TextField("In ml or g");
-	    		TextField used = new TextField("Amount Used In ml or g");
+	    		TextField measurement = new TextField();
+	    		TextField used = new TextField();
 	    		
 	    		ingredientNamesList.add(name);
 	    		ingredientCaloriesList.add(calories);
@@ -133,7 +152,10 @@ import javafx.scene.layout.*;
 	    	mealDoneButton.setOnAction(doneEvent -> newMeal(mainScene, ingredientNamesList, ingredientCaloriesList, portions, portionsUsed));
 	    	enterMealContainer.getChildren().add(mealDoneButton);
 	    	Scene mealScreenScene = new Scene(enterMealContainer);
-	    	applicationStage.setScene(mealScreenScene);
+	    	if (ingredientNumber != 0) {
+	    		applicationStage.setScene(mealScreenScene);
+	    		ingredientNumError.setText(""); 
+	    	}
 	    }
 	    void newMeal(Scene mainScene, ArrayList<TextField> ingredientNamesList, ArrayList<TextField> ingredientCaloriesList, ArrayList<TextField> portions, ArrayList<TextField> portionsUsed) {
 	    	applicationStage.setScene(mainScene);
@@ -231,6 +253,16 @@ Scene mainScene = applicationStage.getScene();
 	    		errorInCode = true; 
 	    		usernameErrorLabel.setText("Something went wrong with the file");
 	    	}
+	    	double exerciseMins = 0;
+	    	exerciseErrorLabel.setText("");
+	    	try {exerciseMins = checkUserTextbox(exerciseTextfield, 1);}
+	    	catch (Error E) {
+	    		errorInCode = true;
+	    		exerciseErrorLabel.setText(E.getMessage());
+	    	}
+	    	double intensity = exerciseIntensity.getValue() / 5.0;
+	    	System.out.println(intensity); 
+	    	
 	    }
 	    
 	    /**
@@ -242,7 +274,10 @@ Scene mainScene = applicationStage.getScene();
 	     */
 	    public double checkUserTextbox(TextField userInput, int period) throws Error {
 	    	double num = 0;
-	    	try {num = Double.parseDouble(userInput.getText());
+	    	try {if (userInput.getText() == "") throw new NullPointerException();
+	    		num = Double.parseDouble(userInput.getText());
+	    	
+	    	if (num<0) throw new Error("No negative numbers please.");
 	    	int periodCount = 0;
 	    	for(char C: userInput.getText().toCharArray()) {
 	    		if (C=='.') periodCount++;} 
@@ -258,7 +293,9 @@ Scene mainScene = applicationStage.getScene();
 	    		for(char c : userInput.getText().toCharArray()) {
 	    			if(!Character.isDigit(c) & c!='.') throw new Error("Please remove the character "+c+".");
 	    			if(c=='.') counter++;
-	    			if (counter>1) throw new Error("Only one decimal allowed.");
+	    			if (counter>1) {
+	    				if (period !=0)throw new Error("Only one decimal allowed.");
+	    				else throw new Error("No decimal points please.");}
 	    		}
 	    	}
 	    	return num;		}
