@@ -211,6 +211,9 @@ Scene mainScene = applicationStage.getScene();
 	    void addMealCalories(Scene mainScene, ArrayList<TextField> mealList, ArrayList<TextField> mealPortion) {
 	    	applicationStage.setScene(mainScene);
 	    }
+	    void calculateCalories() {
+	    	
+	    }
 
 	   
 	    

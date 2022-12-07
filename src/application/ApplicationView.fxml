@@ -132,7 +132,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </Slider>
-      <Button mnemonicParsing="false" text="Calculate">
+      <Button fx:id="calculateCalories" mnemonicParsing="false" text="Calculate">
          <VBox.margin>
             <Insets bottom="10.0" left="200.0" right="10.0" top="10.0" />
          </VBox.margin>

@@ -18,8 +18,17 @@ public class User {
 
 		try { String name = new String(User.getText());
 		Username = name;
-		if (User.getText() == "") throw new NullPointerException();}
+		if (this.checkUserExists() == true) throw new Error("This username is already in use.");
+		if (User.getText() == "") throw new NullPointerException();
+		for(char c: this.Username.toCharArray()) {
+			if(Character.isWhitespace(c)) throw new Error("Cannot have spaces in username."); 
+		}
+		}
+		catch (IOException IOE) {
+			throw new Error("Something is wrong with the file.");
+		}
 		catch(NullPointerException npe) {
+			npe.printStackTrace();
 			throw new Error("Please enter a username.");
 		} 
 		try {targetCalories = new Double(calories.getText());
@@ -58,11 +67,28 @@ public class User {
 		}
 		writer.write(this.Username+" "+ this.targetCalories+ " "+ this.targetExercise+"\n");
 		writer.close();
+		
+	}
+	
+	public boolean checkUserExists() throws IOException{
 		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
 		String line = reader.readLine();
-		while (line!= null) {
-			System.out.println(line);
-			line = reader.readLine();}
+		boolean exists = false;
+		while (line != null) {
+			int marker = 0;
+			int counter = 0;
+				for(char C: line.toCharArray()) {
+					if(Character.isWhitespace(C) && marker==0) {
+						marker = new Integer(counter);
+						
+					}
+					counter++;
+				}
+				if (line.substring(0, marker).equals(this.Username)) exists=true;
+			line = reader.readLine();
+			}
+		reader.close();
+		return exists;
 	}
 }
 
