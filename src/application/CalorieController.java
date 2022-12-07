@@ -211,9 +211,44 @@ Scene mainScene = applicationStage.getScene();
 	    void addMealCalories(Scene mainScene, ArrayList<TextField> mealList, ArrayList<TextField> mealPortion) {
 	    	applicationStage.setScene(mainScene);
 	    }
+	    @FXML
 	    void calculateCalories() {
-	    	
+	    	boolean errorInCode = false;
+	    	try{if (usernameTextfield.getText() == "")throw new Error("Please enter a username.");
+	    		else if (User.checkUserExists(usernameTextfield.getText())==false) {
+	    		throw new Error("This user does not exist.");
+	    	}else usernameErrorLabel.setText("");
+	    	}
+	    	catch(Error E) {
+	    		errorInCode = true;
+	    		usernameErrorLabel.setText(E.getMessage());}
+	    	catch(IOException IOE) {
+	    		errorInCode = true; 
+	    		usernameErrorLabel.setText("Something went wrong with the file");
+	    	}
 	    }
+	    public double checkUserTextbox(TextField userInput, int period) throws Error {
+	    	double num = 0;
+	    	try {num = Double.parseDouble(userInput.getText());
+	    	int periodCount = 0;
+	    	for(char C: userInput.getText().toCharArray()) {
+	    		if (C=='.') periodCount++;} 
+	    	if (periodCount > period) {
+	    		if (period == 0)throw new Error("No decimal points please.");
+	    		else throw new Error("Only one decimal allowed.");
+	    	}}
+	    	catch(NullPointerException npe) {
+	    		throw new Error("Please enter a number.");
+	    	}
+	    	catch(NumberFormatException nfe) {
+	    		int counter = 0;
+	    		for(char c : userInput.getText().toCharArray()) {
+	    			if(!Character.isDigit(c) & c!='.') throw new Error("Please remove the character "+c+".");
+	    			if(c=='.') counter++;
+	    			if (counter>1) throw new Error("Only one decimal allowed.");
+	    		}
+	    	}
+	    	return num;		}
 
 	   
 	    

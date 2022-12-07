@@ -18,7 +18,7 @@ public class User {
 
 		try { String name = new String(User.getText());
 		Username = name;
-		if (this.checkUserExists() == true) throw new Error("This username is already in use.");
+		if (this.checkUserExists(User.getText()) == true) throw new Error("This username is already in use.");
 		if (User.getText() == "") throw new NullPointerException();
 		for(char c: this.Username.toCharArray()) {
 			if(Character.isWhitespace(c)) throw new Error("Cannot have spaces in username."); 
@@ -70,7 +70,7 @@ public class User {
 		
 	}
 	
-	public boolean checkUserExists() throws IOException{
+	public static boolean checkUserExists(String username) throws IOException{
 		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
 		String line = reader.readLine();
 		boolean exists = false;
@@ -84,7 +84,7 @@ public class User {
 					}
 					counter++;
 				}
-				if (line.substring(0, marker).equals(this.Username)) exists=true;
+				if (line.substring(0, marker).equals(username)) exists=true;
 			line = reader.readLine();
 			}
 		reader.close();
