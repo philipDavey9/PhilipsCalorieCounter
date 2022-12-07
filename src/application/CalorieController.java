@@ -45,6 +45,7 @@ import javafx.scene.layout.*;
 	     @FXML 
 	     private TextField ingredientsText;
 	     
+	     //Creates the scene when 'Create new user' button is pressed.
 	     @FXML
 	  	    void enterInputScreen(ActionEvent inputScreenEvent) {
 	    	Scene mainScene = applicationStage.getScene();
@@ -74,6 +75,8 @@ import javafx.scene.layout.*;
 	    	applicationStage.setScene(inputScreenScene);
 	    }Label errorLabel = new Label("");
 	     
+	    //Creates a new instance of User with input from 'Create new user' scene and saves it. 
+	    //Will not allow user to get back to mainScene until all errors are resolved.
 	    void newUser(Scene mainScene, TextField usernameText, TextField caloriesText, TextField exerciseText) {
 	    	Boolean errorInInput = false;
 	    	try {User currentuser = new User(usernameText,caloriesText,exerciseText);
@@ -86,10 +89,10 @@ import javafx.scene.layout.*;
 	    		errorInInput = true;
 	    		errorLabel.setText((E.getMessage()));}
 	    	
-	    	
-	    	
 	    	if (!errorInInput) applicationStage.setScene(mainScene);}
 
+	    
+	    //Creates scene when 'add new meal' is pressed. 
 	    @FXML
 	    void enterMealScreen(ActionEvent mealScreenEvent) {
 	    	Scene mainScene = applicationStage.getScene();
@@ -211,6 +214,8 @@ Scene mainScene = applicationStage.getScene();
 	    void addMealCalories(Scene mainScene, ArrayList<TextField> mealList, ArrayList<TextField> mealPortion) {
 	    	applicationStage.setScene(mainScene);
 	    }
+	    
+	    //Method to calculate calories when 'calculate' button is pressed. Handles user input from main scene in method.
 	    @FXML
 	    void calculateCalories() {
 	    	boolean errorInCode = false;
@@ -227,6 +232,14 @@ Scene mainScene = applicationStage.getScene();
 	    		usernameErrorLabel.setText("Something went wrong with the file");
 	    	}
 	    }
+	    
+	    /**
+	     * Method to verify user input as an applicable number.
+	     * @param userInput, the textfield to be verified
+	     * @param period, ideally 0 or 1 as to effectively return integers and decimal numbers respectively.
+	     * @return will return the number inputed by user, or if an error is detected, a 0
+	     * @throws Error
+	     */
 	    public double checkUserTextbox(TextField userInput, int period) throws Error {
 	    	double num = 0;
 	    	try {num = Double.parseDouble(userInput.getText());

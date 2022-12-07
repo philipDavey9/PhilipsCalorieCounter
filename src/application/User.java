@@ -7,13 +7,18 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-
 public class User {
 	private String Username;
 	private double targetCalories;
 	private double targetExercise;
 	
-	
+	/**
+	 * Constructor for class User that takes inputs specifically from textfields. All validation of user input
+	 * is done within the constructor.
+	 * @param All parameters are taken from textfields within the Calorie Calculator.
+	 * @throws Error, errors thrown come with a message specific to the type of error. This is to allow 
+	 * easy handling in outside methods and be given as feedback to the user.
+	 */
 	public User(TextField User, TextField calories, TextField exercise) throws Error {
 
 		try { String name = new String(User.getText());
@@ -28,7 +33,6 @@ public class User {
 			throw new Error("Something is wrong with the file.");
 		}
 		catch(NullPointerException npe) {
-			npe.printStackTrace();
 			throw new Error("Please enter a username.");
 		} 
 		try {targetCalories = new Double(calories.getText());
@@ -58,7 +62,10 @@ public class User {
 	
 		} 
 	
-		
+	/**
+	 * Method to save instances of a user to a file. The file will be created by the code and appended to thereafter.	
+	 * @throws IOException, all exceptions associated with problems with the file.
+	 */
 	public void saveUser() throws IOException { 
 		BufferedWriter writer;
 		try{writer = new BufferedWriter(new FileWriter("Users.txt", true));}
@@ -69,11 +76,18 @@ public class User {
 		writer.close();
 		
 	}
-	
+	/**
+	 * Method to check if some username is already in use by a previous instance of User. Accomplishes this by searching 
+	 * the file that saveUser() saves to.
+	 * @param username, any string intended to be used as a username
+	 * @return true if instance with same username already exists within the file, false otherwise
+	 * @throws IOException, all exceptions associated with file handling.
+	 */
 	public static boolean checkUserExists(String username) throws IOException{
 		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
 		String line = reader.readLine();
 		boolean exists = false;
+		
 		while (line != null) {
 			int marker = 0;
 			int counter = 0;
