@@ -48,6 +48,12 @@ import javafx.scene.layout.*;
 	     @FXML 
 	     private Label ingredientNumError;
 	     
+	     @FXML
+	     private Label caloriesDisplay;
+	     
+	     @FXML 
+	     private Label finalMessage;
+	     
 	     //Creates the scene when 'Create new user' button is pressed.
 	     @FXML
 	  	    void enterInputScreen(ActionEvent inputScreenEvent) {
@@ -299,18 +305,29 @@ Scene mainScene = applicationStage.getScene();
 	    	applicationStage.setScene(enterScreenScene);
 	    }
 	    Label newLabelError = new Label("");
+	    double totalCalories =0;
 	    void addMealCalories(Scene mainScene, ArrayList<TextField> mealList, ArrayList<TextField> mealPortion) {
 	    	double total = 0;
 	    	boolean error = false;
+	    	for (TextField list: mealPortion) {
+	    		try {checkUserTextbox(list,1);}
+	    		catch (Error E) {
+	    			error = true;
+	    			newLabelError.setText(E.getMessage());
+	    		}}
 	    	for(int n=0; n< mealList.size(); n++) {
 	    		String name = mealList.get(n).getText();
 	    		try {double num = Meal.findMeal(name,usernameTextfield.getText());
-	    		total += num * Double.parseDouble(mealPortion.get(n).getText());}
+	    		total += num * Double.parseDouble(mealPortion.get(n).getText());
+	    		totalCalories = total;}
 	    		catch(Error E) {
 	    			error = true;
 	    			newLabelError.setText(E.getMessage());
 	    		}
-	    	}if (!error)applicationStage.setScene(mainScene);
+	    	}if (!error) {
+	    		applicationStage.setScene(mainScene);
+	    		caloriesDisplay.setText(String.format("Total calories consumed: %.0f", total));
+	    	}
 	    }
 	    
 	    //Method to calculate calories when 'calculate' button is pressed. Handles user input from main scene in method.
@@ -336,7 +353,10 @@ Scene mainScene = applicationStage.getScene();
 	    		errorInCode = true;
 	    		exerciseErrorLabel.setText(E.getMessage());
 	    	}
-	    	double intensity = exerciseIntensity.getValue() / 5.0;
+	    	double intensity = exerciseIntensity.getValue() / 2.5;
+	    	 double caloriesBurned = exerciseMins*3*intensity;
+	    	 double netCalories = totalCalories - caloriesBurned;
+	    	 
 	    	 
 	    	
 	    }

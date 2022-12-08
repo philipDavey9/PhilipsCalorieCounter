@@ -76,6 +76,7 @@ public class Meal extends Ingredient{
 					}
 				else	line = reader.readLine();
 			}
+		if (!found) throw new Error("Could not find meal. Make sure you are spelling it correctly.");
 		int end = 0;
 		int X = 0;
 		for (char c: line.substring(mark+1).toCharArray()) {
@@ -85,7 +86,7 @@ public class Meal extends Ingredient{
 		}
 		num = Double.parseDouble(line.substring(mark+1, end));
 		reader.close();
-		if (!found) throw new Error("Could not find meal. Make sure you are spelling it correctly.");
+		
 	} 	catch(FileNotFoundException fnfe) {
 		throw new Error("File not found, input username correctly please.");
 	}
