@@ -374,6 +374,7 @@ import javafx.scene.layout.*;
 	    	}if (!error) {
 	    		applicationStage.setScene(mainScene);
 	    		caloriesDisplay.setText(String.format("Total calories consumed: %.0f", total));
+	    		newLabelError.setText("");
 	    	}
 	    }
 	    
