@@ -9,13 +9,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class User {
-	private String Username;
+	private String username;
 	private double targetCalories;
 	private double targetExercise;
 	
-	public User() {
-		
-	}
 	/**
 	 * Constructor for class User that takes inputs specifically from textfields. All validation of user input
 	 * is done within the constructor.
@@ -25,14 +22,14 @@ public class User {
 	 */
 	public User(TextField User, TextField calories, TextField exercise) throws Error {
 		try { String name = new String(User.getText());
-		Username = name;
+		username = name;
 		
 		//checks if the user already exists in which case we cannot make another instance with the same username
 		if (this.checkUserExists(User.getText()) == true) throw new Error("This username is already in use.");
 		//checks that the textfield isn't empty
 		if (User.getText() == "") throw new NullPointerException();
 		//checks that no spaces are contained within the username as to not mess with saveUser and checkUserExist methods.
-		for(char c: this.Username.toCharArray()) {
+		for(char c: this.username.toCharArray()) {
 			if(Character.isWhitespace(c)) throw new Error("Cannot have spaces in username.");
 		}
 		}
@@ -91,7 +88,7 @@ public class User {
 			writer = new BufferedWriter(new FileWriter("Users.txt"));
 		}
 		//writes to file the instances username targetcalories and targetExercise
-		writer.write(this.Username+" "+ this.targetCalories+ " "+ this.targetExercise+"\n");
+		writer.write(this.username+" "+ this.targetCalories+ " "+ this.targetExercise+"\n");
 		//close file.
 		writer.close();
 		
@@ -103,7 +100,7 @@ public class User {
 	 * @return true if instance with same username already exists within the file, false otherwise
 	 * @throws IOException, all exceptions associated with file handling.
 	 */
-	public static boolean checkUserExists(String username) throws IOException{
+	public static boolean checkUserExists(String user) throws IOException{
 		//goes to read 'Users.txt' file
 		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
 		//set line to first line
@@ -123,7 +120,7 @@ public class User {
 				}
 				// checks that the username on the file- which will be from the begining to the first whitespace- is 
 				//somewhere on the file
-				if (line.substring(0, marker).equals(username)) exists=true;
+				if (line.substring(0, marker).equals(user)) exists=true;
 				//set reader to read next line
 			line = reader.readLine();
 			}
@@ -135,11 +132,11 @@ public class User {
 	/** 
 	 * method to find the users calorie goals. Does this by first finding the username in the file then the second space as it 
 	 * will be the end of calories string.
-	 * @param username will return this usernames corresponding target calories
+	 * @param user will return this usernames corresponding target calories
 	 * @return
 	 * @throws Error
 	 */
-	public static Double getGoalCalories(String username) throws Error {
+	public static Double getGoalCalories(String user) throws Error {
 		String line =" ";
 		Double num = 0.0;
 		boolean found = false;
@@ -160,7 +157,7 @@ public class User {
 					counter++;
 				}
 				//if true the position of the space will be marked and loop will end
-				if (line.substring(0, marker).equals(username)) {
+				if (line.substring(0, marker).equals(user)) {
 					found = true;
 					mark = marker;
 					}
