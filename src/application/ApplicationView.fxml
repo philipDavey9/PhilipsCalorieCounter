@@ -65,41 +65,6 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label text="Number of Miscellaneous Items:">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Label>
-            <ChoiceBox fx:id="otherNumber" prefHeight="31.0" prefWidth="55.0">
-            	<items>
-            	<FXCollections fx:factory="observableArrayList">
-            			<Integer fx:value="0" />
-            			<Integer fx:value="1" />
-            			<Integer fx:value="2" />
-            			<Integer fx:value="3" />
-            			<Integer fx:value="4" />
-            			<Integer fx:value="5" />
-            			<Integer fx:value="6" />
-            			<Integer fx:value="7" />
-            			<Integer fx:value="8" />
-            			<Integer fx:value="9" />
-            			<Integer fx:value="10" />
-            			<Integer fx:value="11" />
-            			<Integer fx:value="12" />
-            			</FXCollections></items>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </ChoiceBox>
-            <Button mnemonicParsing="false" onAction="#enterOthers" text="Enter Miscellaneous Items">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
             <Label prefHeight="21.0" prefWidth="138.0" text="Minutes of Exercise" textAlignment="CENTER">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

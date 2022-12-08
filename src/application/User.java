@@ -3,6 +3,7 @@ package application;
 import javafx.scene.control.TextField;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -107,6 +108,47 @@ public class User {
 		reader.close();
 		return exists;
 	}
+	
+	public static Double getGoalCalories(String username) throws Error {
+		String line =" ";
+		Double num = 0.0;
+		boolean found = false;
+		try{BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
+		line = reader.readLine();
+		int mark =0;
+		while (line != null && mark==0) {
+			int marker = 0;
+			int counter = 0;
+				for(char C: line.toCharArray()) {
+					if(Character.isWhitespace(C) && marker==0) {
+						marker = new Integer(counter);
+					}
+					counter++;
+				}
+				if (line.substring(0, marker).equals(username)) {
+					found = true;
+					mark = marker;
+					}
+				else	line = reader.readLine();
+			}reader.close();
+		if (!found) throw new Error("Could not find calories. Make sure you are spelling your username correctly.");
+		int end = 0;
+		int X = 0;
+		for (char c: line.substring(mark+1).toCharArray()) {
+			if (Character.isWhitespace(c)) end = mark+X+1;
+			X++;
+			
+		}
+		num = Double.parseDouble(line.substring(mark+1, end));
+		
+	} 	catch(FileNotFoundException fnfe) {
+		throw new Error("File not found, input username correctly please.");
+	}
+	catch (IOException ioe) {
+		throw new Error("Error occured when accessing file.");
+	}
+		return num;}
+
 }
 
 

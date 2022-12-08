@@ -357,10 +357,15 @@ Scene mainScene = applicationStage.getScene();
 	    	 double caloriesBurned = exerciseMins*3*intensity;
 	    	 double netCalories = totalCalories - caloriesBurned;
 	    	 
-	    	 
-	    	
+	    	 double goals = 0;
+	    	 try{goals = User.getGoalCalories(usernameTextfield.getText());}
+	    	 catch (Error E) {
+	    		 finalMessage.setText(E.getMessage());
+	    	 }
+	    		if (goals>netCalories) finalMessage.setText(String.format("You were %.0f calories away from achieving your goal(Need more calories to achieve your goal).", goals-netCalories));
+	    		else if (netCalories>goals) finalMessage.setText(String.format("You exceded your goal by %.0f calories(Need less calories to achieve your goal).", netCalories-goals));
+	    		else if (goals==netCalories & netCalories!=0) finalMessage.setText("You matched your goals perfectly! Good job!");
 	    }
-	    
 	    /**
 	     * Method to verify user input as an applicable number.
 	     * @param userInput, the textfield to be verified
